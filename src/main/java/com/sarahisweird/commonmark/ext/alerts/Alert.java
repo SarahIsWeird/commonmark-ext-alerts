@@ -2,6 +2,8 @@ package com.sarahisweird.commonmark.ext.alerts;
 
 import org.commonmark.node.CustomBlock;
 
+import java.util.List;
+
 /**
  * A GFM-style alert block with a type and possibly additional data.
  * <p>
@@ -39,6 +41,12 @@ import org.commonmark.node.CustomBlock;
  * </p>
  */
 public class Alert extends CustomBlock {
+    /**
+     * The alert types allowed by GitHub.
+     * @see Alert#isValidGfmType()
+     */
+    public static final List<String> GFM_ALERT_TYPES = List.of("NOTE", "TIP", "IMPORTANT", "WARNING", "CAUTION");
+
     private String alertType;
     private String additionalData;
 
@@ -57,11 +65,22 @@ public class Alert extends CustomBlock {
         this.alertType = alertType;
     }
 
+    /**
+     * Returns additional metadata, or {@code null} if not set.
+     */
     public String getAdditionalData() {
         return additionalData;
     }
 
     public void setAdditionalData(String additionalData) {
         this.additionalData = additionalData;
+    }
+
+    /**
+     * Checks whether this alert type is valid in GitHub-flavoured Markdown.
+     * This function is case-sensitive!
+     */
+    public boolean isValidGfmType() {
+        return GFM_ALERT_TYPES.contains(alertType);
     }
 }

@@ -4,6 +4,14 @@ import org.commonmark.node.*;
 import org.commonmark.parser.PostProcessor;
 
 public class AlertPostProcessor implements PostProcessor {
+    private final boolean allowNonGfmAlerts;
+    private final boolean allowMetadata;
+
+    AlertPostProcessor(boolean allowNonGfmAlerts, boolean allowMetadata) {
+        this.allowNonGfmAlerts = allowNonGfmAlerts;
+        this.allowMetadata = allowMetadata;
+    }
+
     @Override
     public Node process(Node node) {
         if (!canPostProcess(node)) {
@@ -12,6 +20,11 @@ public class AlertPostProcessor implements PostProcessor {
         }
 
         Alert alert = getAlert(node.getFirstChild());
+        if (alert == null) {
+            visitChildren(node);
+            return node;
+        }
+
         node.getParent().appendChild(alert);
         alert.insertBefore(node);
         node.unlink();
@@ -38,17 +51,25 @@ public class AlertPostProcessor implements PostProcessor {
         return line.startsWith("[!") && line.endsWith("]");
     }
 
-    private static Alert getAlert(Node paragraph) {
+    private Alert getAlert(Node paragraph) {
         Text text = (Text) paragraph.getFirstChild();
         String line = text.getLiteral().trim();
 
         int attributeStart = line.indexOf(' ');
+        if (!allowMetadata && attributeStart != -1) {
+            return null;
+        }
+
         int typeEnd = attributeStart;
         if (typeEnd == -1) {
             typeEnd = line.lastIndexOf(']');
         }
 
         String type = line.substring("[!".length(), typeEnd);
+        if (!allowNonGfmAlerts && !Alert.GFM_ALERT_TYPES.contains(type)) {
+            return null;
+        }
+
         String attributes = null;
         if (attributeStart != -1) {
             attributes = line.substring(attributeStart + 1, line.lastIndexOf(']'));
