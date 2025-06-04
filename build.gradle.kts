@@ -36,8 +36,8 @@ publishing {
 
     repositories {
         maven {
-            name = "mavenSarahRepository"
-            url = uri("https://maven.sarahisweird.org/releases")
+            name = "mavenSarah"
+            url = uri("https://maven.sarahisweird.com/releases")
             credentials(PasswordCredentials::class)
             authentication {
                 create<BasicAuthentication>("basic")
