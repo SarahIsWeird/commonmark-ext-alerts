@@ -12,27 +12,23 @@ import org.commonmark.renderer.text.TextContentRenderer;
  * > [!TIP]
  * > GFM alerts are these.
  * </code></pre>
- * </p>
  * <p>
  * Non-GFM alerts can also be allowed by passing {@code true} to {@link #create(boolean)}:
- * </p>
  * <p>
  * <pre><code>
  * > [!EXAMPLE]
  * > This is a non-standard alert block.
  * </code></pre>
- * </p>
  * <p>
  * Lastly, the library allows a non-standard extension to the alert format by allowing the Markdown writer
  * to provide metadata to the alert block by passing {@code true} to the second argument of
  * {@link #create(boolean, boolean)}:
- * </p>
  * <p>
  * <pre><code>
  * > [!EXAMPLE example.com]
  * > This non-standard alert block also has some metadata.
  * </code></pre>
- * </p>
+ *
  * @see Alert
  */
 public class AlertExtension implements Parser.ParserExtension, MarkdownRenderer.MarkdownRendererExtension, HtmlRenderer.HtmlRendererExtension, TextContentRenderer.TextContentRendererExtension {
@@ -53,6 +49,7 @@ public class AlertExtension implements Parser.ParserExtension, MarkdownRenderer.
 
     /**
      * Creates an AlertExtension, possibly allowing non-GFM alert types.
+     *
      * @param allowNonGfmAlerts Whether to allow non-GFM alert types
      */
     public static AlertExtension create(boolean allowNonGfmAlerts) {
@@ -61,6 +58,7 @@ public class AlertExtension implements Parser.ParserExtension, MarkdownRenderer.
 
     /**
      * Creates an AlertExtension, possibly allowing both non-GFM alert types and non-standard metadata.
+     *
      * @param allowNonGfmAlerts Whether to allow non-GFM alert types
      * @param allowMetadata Whether to allow non-standard additional metadata after the alert type
      */

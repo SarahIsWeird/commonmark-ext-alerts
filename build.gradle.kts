@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.sarahisweird.commonmark"
-version = "1.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -21,6 +21,11 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {

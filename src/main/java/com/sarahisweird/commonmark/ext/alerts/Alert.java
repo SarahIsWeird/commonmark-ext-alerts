@@ -12,37 +12,33 @@ import java.util.List;
  * > [!WARNING]
  * > Do not do the thingy!
  * </code></pre>
- * </p>
  * <p>
  * The corresponding node would look like this:
  * <ul>
  *     <li>{@link #getAlertType()} returns {@code "WARNING"}</li>
  *     <li>{@link #getAdditionalData()} returns {@code null}</li>
  * </ul>
- * </p>
  * <p>
  * Example for a non-GFM alert:
  * <pre><code>
  * > [!EXAMPLE example.com example.net]
  * > This is an example!
  * </code></pre>
- * </p>
  * <p>
  * The corresponding node would look like this:
  * <ul>
  *     <li>{@link #getAlertType()} returns {@code "EXAMPLE"}</li>
  *     <li>{@link #getAdditionalData()} returns {@code "example.com example.net"}</li>
  * </ul>
- * </p>
  * <br />
  * <p>
  * Otherwise, the structure is identical to {@link org.commonmark.node.BlockQuote},
  * i.e., the contents of the alert are available as the children of this block.
- * </p>
  */
 public class Alert extends CustomBlock {
     /**
      * The alert types allowed by GitHub.
+     *
      * @see Alert#isValidGfmType()
      */
     public static final List<String> GFM_ALERT_TYPES = List.of("NOTE", "TIP", "IMPORTANT", "WARNING", "CAUTION");
