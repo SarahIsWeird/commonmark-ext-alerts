@@ -6,32 +6,40 @@ import org.commonmark.node.Node;
 import org.commonmark.node.Paragraph;
 import org.commonmark.node.Text;
 import org.commonmark.parser.Parser;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+
 class AlertPostProcessorTest {
     @Test
     void processorTest() {
-        List<Extension> extensions = List.of(AlertExtension.create());
+        List<Extension> extensions = List.of(AlertExtension.create(true, true));
         Parser parser = Parser.builder().extensions(extensions).build();
 
         Node document = parser.parse("""
+                A
+                
                 > [!INFO example.com]
-                > Hello! :D""");
+                > Hello! :D
+                
+                B""");
 
-        Assertions.assertInstanceOf(Document.class, document);
-        Assertions.assertInstanceOf(Alert.class, document.getFirstChild());
+        assertInstanceOf(Document.class, document);
+        assertInstanceOf(Paragraph.class, document.getFirstChild());
+        assertInstanceOf(Alert.class, document.getFirstChild().getNext());
+        assertInstanceOf(Paragraph.class, document.getFirstChild().getNext().getNext());
 
-        Alert alert = (Alert) document.getFirstChild();
-        Assertions.assertEquals("INFO", alert.getAlertType());
-        Assertions.assertEquals("example.com", alert.getAdditionalData());
+        Alert alert = (Alert) document.getFirstChild().getNext();
+        assertEquals("INFO", alert.getAlertType());
+        assertEquals("example.com", alert.getAdditionalData());
 
-        Assertions.assertInstanceOf(Paragraph.class, alert.getFirstChild());
-        Assertions.assertInstanceOf(Text.class, alert.getFirstChild().getFirstChild());
+        assertInstanceOf(Paragraph.class, alert.getFirstChild());
+        assertInstanceOf(Text.class, alert.getFirstChild().getFirstChild());
         Text text = (Text) alert.getFirstChild().getFirstChild();
 
-        Assertions.assertEquals("Hello! :D", text.getLiteral());
+        assertEquals("Hello! :D", text.getLiteral());
     }
 }

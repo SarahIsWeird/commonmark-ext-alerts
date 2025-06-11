@@ -46,10 +46,10 @@ Include the library as a dependency in your build file:
 
 ```groovy
 // build.gradle.kts
-implementation("com.sarahisweird.commonmark:commonmark-ext-alerts:1.0")
+implementation("com.sarahisweird.commonmark:commonmark-ext-alerts:1.0.2")
 
 // build.gradle
-implementation "com.sarahisweird.commonmark:commonmark-ext-alerts:1.0"
+implementation "com.sarahisweird.commonmark:commonmark-ext-alerts:1.0.2"
 ```
 
 ### Initialization

@@ -25,8 +25,7 @@ public class AlertPostProcessor implements PostProcessor {
             return node;
         }
 
-        node.getParent().appendChild(alert);
-        alert.insertBefore(node);
+        node.insertBefore(alert);
         node.unlink();
         visitChildren(alert);
         return alert;
